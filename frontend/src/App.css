@@ -1,0 +1,136 @@
+/* Chat Container */
+.chat-container {
+  width: auto;
+  height: auto;
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 5px;
+  margin: 50px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Chat History */
+.chat-history {
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+.paragraph {
+  margin: 8px 0px;
+}
+
+/* Message Bubble */
+.message {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+}
+
+.user .message-sender {
+  color: #007bff;
+}
+
+.server .message-sender {
+  color: #f00;
+}
+
+.message-bubble {
+  background-color: #444;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  width: fit-content;
+}
+
+.user .message-bubble {
+  background-color: #5e5e5e;
+}
+
+/* Chat Input */
+.chat-input {
+  display: flex;
+}
+
+input {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  background-color: #444;
+  color: #fff;
+  margin-right: 10px;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* Dark Theme */
+body {
+  background-color: #111;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+}
+
+@-webkit-keyframes fadeinout {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fadeinout {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.loading {
+  font-size: 2em;
+}
+
+.loading span {
+  background: rgb(37, 36, 36);
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+  margin-left: 5px;
+  will-change: opacity;
+  -webkit-animation: fadeinout 1600ms infinite;
+  animation: fadeinout 1600ms infinite;
+}
+
+.loading span:nth-child(1) {
+  -webkit-animation-delay: 150ms;
+  animation-delay: 150ms;
+}
+
+.loading span:nth-child(2) {
+  -webkit-animation-delay: 300ms;
+  animation-delay: 300ms;
+}
+
+.loading span:nth-child(3) {
+  -webkit-animation-delay: 450ms;
+  animation-delay: 450ms;
+}
