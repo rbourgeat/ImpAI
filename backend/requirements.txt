@@ -1,0 +1,4 @@
+numpy==1.23.5
+flask==3.0.0
+flask_cors==4.0.0
+diffusers==0.21.4

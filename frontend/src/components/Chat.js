@@ -6,6 +6,36 @@ function Chat() {
   const chatBottomRef = useRef(null);
   const [waiting, setWaiting] = useState(false);
 
+    const generateImage = (currentChatHistory) => {
+        const prompt = `<s>[INST] Write only keywords that could resume the \
+            following text, give me only keywords:
+            ${JSON.stringify(currentChatHistory)} [/INST]`;
+
+        fetch('http://localhost:7542/completion', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({"prompt": prompt, "n_predict": -1}),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("keywords: ", data.content);
+            fetch('http://localhost:7543/generate_image', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({"keywords": data.content}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.file_name);
+                setChatHistory(prevChatHistory => [...prevChatHistory, { text: `http://localhost:7543/images/${data.file_name}`, sender: 'image' }]);
+            });
+        });
+    }
+
     const handleSendMessage = () => {
         setChatHistory(prevChatHistory => [...prevChatHistory, { text: message, sender: 'user' }]);
         setMessage('');
@@ -28,6 +58,7 @@ function Chat() {
         .then(data => {
             setChatHistory(prevChatHistory => [...prevChatHistory, { text: data.content, sender: 'server' }]);
             setWaiting(false);
+            generateImage([...chatHistory, { text: data.content, sender: 'server' }]);
         });
     };
 
@@ -46,14 +77,23 @@ function Chat() {
             <div className="chat-history">
                 {chatHistory.map((message, index) => (
                 <div key={index} className={`message ${message.sender}`}>
-                    <span className="message-sender">{message.sender === 'user' ? 'You' : 'Game Master'}</span>
-                    <div className="message-bubble">
-                        {message.text.split('\n').map((paragraph, index) => (
-                            <p key={index} className="paragraph">
-                                {paragraph}
-                            </p>
-                        ))}
-                    </div>
+                    { message.sender === 'image' ? (
+                            <div className="message-bubble">
+                                <img src={message.text} alt="Generated Image" />
+                            </div>
+                        ) : (
+                            <div>
+                                <span className="message-sender">{message.sender === 'user' ? 'You' : 'Game Master'}</span>
+                                <div className="message-bubble">
+                                    {message.text.split('\n').map((paragraph, index) => (
+                                        <p key={index} className="paragraph">
+                                            {paragraph}
+                                        </p>
+                                    ))}
+                                </div>
+                            </div>
+                        )
+                    }
                 </div>
                 ))}
                 { waiting && (
@@ -72,9 +112,10 @@ function Chat() {
                 value={message}
                 onChange={e => setMessage(e.target.value)}
                 onKeyDown={handleEnter}
-                placeholder="Type your message..."
+                disabled={waiting}
+                placeholder="Type your action..."
                 />
-                <button onClick={handleSendMessage}>Send</button>
+                <button onClick={handleSendMessage} disabled={waiting}>Send</button>
             </div>
         </div>
     );
