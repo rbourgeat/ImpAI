@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { IoSend } from "react-icons/io5";
 
 function Chat() {
   const [message, setMessage] = useState('');
@@ -30,8 +31,9 @@ function Chat() {
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data.file_name);
-                setChatHistory(prevChatHistory => [...prevChatHistory, { text: `http://localhost:7543/images/${data.file_name}`, sender: 'image' }]);
+                if (data.file_name !== "undefined") {
+                    setChatHistory(prevChatHistory => [...prevChatHistory, { text: `http://localhost:7543/images/${data.file_name}`, sender: 'image' }]);
+                }
             });
         });
     }
@@ -115,7 +117,7 @@ function Chat() {
                 disabled={waiting}
                 placeholder="Type your action..."
                 />
-                <button onClick={handleSendMessage} disabled={waiting}>Send</button>
+                <button onClick={handleSendMessage} disabled={waiting}><IoSend /></button>
             </div>
         </div>
     );

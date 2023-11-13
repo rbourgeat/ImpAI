@@ -1,6 +1,5 @@
 import os
 import sys
-import spacy
 import string
 import random
 import logging
@@ -21,8 +20,6 @@ system = platform.system()
 app = Flask(__name__)
 CORS(app)
 is_generating_image = False
-
-nlp = spacy.load("en_core_web_sm")
 
 dpm = DPMSolverMultistepScheduler.from_pretrained(SD_MODEL, subfolder="scheduler")
 pipe = None 
