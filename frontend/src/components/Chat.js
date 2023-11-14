@@ -1,16 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { IoSend } from "react-icons/io5";
+import { IoSend, IoImagesOutline } from "react-icons/io5";
 
 function Chat() {
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const chatBottomRef = useRef(null);
-  const [waiting, setWaiting] = useState(false);
+  const [waitingText, setwaitingText] = useState(false);
+  const [waitingImage, setwaitingImage] = useState(false);
 
-    const generateImage = (currentChatHistory) => {
+    const generateImage = () => {
+        setwaitingImage(true);
         const prompt = `<s>[INST] Write only keywords that could resume the \
             following text, give me only keywords:
-            ${JSON.stringify(currentChatHistory)} [/INST]`;
+            ${JSON.stringify(chatHistory)} [/INST]`;
 
         fetch('http://localhost:7542/completion', {
             method: 'POST',
@@ -34,6 +36,7 @@ function Chat() {
                 if (data.file_name !== "undefined") {
                     setChatHistory(prevChatHistory => [...prevChatHistory, { text: `http://localhost:7543/images/${data.file_name}`, sender: 'image' }]);
                 }
+                setwaitingImage(false);
             });
         });
     }
@@ -41,7 +44,7 @@ function Chat() {
     const handleSendMessage = () => {
         setChatHistory(prevChatHistory => [...prevChatHistory, { text: message, sender: 'user' }]);
         setMessage('');
-        setWaiting(true);
+        setwaitingText(true);
 
         const prompt = `<s>[INST] You are a game master of a role play. \
             You need to act as a narrator for simulate dialog for describe \
@@ -59,8 +62,7 @@ function Chat() {
         .then(response => response.json())
         .then(data => {
             setChatHistory(prevChatHistory => [...prevChatHistory, { text: data.content, sender: 'server' }]);
-            setWaiting(false);
-            generateImage([...chatHistory, { text: data.content, sender: 'server' }]);
+            setwaitingText(false);
         });
     };
 
@@ -98,7 +100,7 @@ function Chat() {
                     }
                 </div>
                 ))}
-                { waiting && (
+                { waitingText && (
                     <div className={`message server`}>
                         <span className="message-sender">Game Master</span>
                         <div className="message-bubble">
@@ -109,15 +111,24 @@ function Chat() {
                 <div ref={chatBottomRef} />
             </div>
             <div className="chat-input">
+                <div class="tooltip" data-tooltip={waitingImage ? "Generating Image..." : "Generate Image"}>
+                    <button onClick={generateImage} disabled={waitingImage}>
+                        <IoImagesOutline />
+                    </button>
+                </div>
                 <input
                 type="text"
                 value={message}
                 onChange={e => setMessage(e.target.value)}
                 onKeyDown={handleEnter}
-                disabled={waiting}
-                placeholder="Type your action..."
+                disabled={waitingText}
+                placeholder={waitingText ? "Generating Response..." : "Type your action..."}
                 />
-                <button onClick={handleSendMessage} disabled={waiting}><IoSend /></button>
+                <div class="tooltip" data-tooltip={waitingText ? "Generating Response..." : "Send Message"}>
+                    <button onClick={handleSendMessage} disabled={waitingText}>
+                        <IoSend />
+                    </button>
+                </div>
             </div>
         </div>
     );

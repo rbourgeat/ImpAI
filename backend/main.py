@@ -101,7 +101,7 @@ def generate_image():
     keywords = keywords = request.get_json()["keywords"]
 
     better_prompt = (
-        "((best quality, masterpiece, detailed, beautiful, cinematic, intricate details)), "
+        "((best quality, masterpiece, detailed, cinematic, intricate details)), "
         + keywords
     )
     negative_prompt = "BadDream, UnrealisticDream, deformed iris, deformed pupils,\

@@ -5,7 +5,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <center><h1>My Virtual Adventure</h1></center>
+      <img src="impai.png" alt="ImpAI" className="logo" />
       <Chat />
     </div>
   );

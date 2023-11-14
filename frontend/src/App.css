@@ -4,6 +4,7 @@ body {
   font-family: Arial, sans-serif;
   font-size: 18px;
   overflow: hidden;
+  transition-duration: 1s;
 }
 
 input {
@@ -14,23 +15,53 @@ input {
   border-radius: 15px;
   background-color: #444;
   color: #fff;
-  margin-right: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 button {
-  font-size: 20px;
-  background-color: transparent;
+  font-size: 25px;
+  padding: 15px;
+  background: none;
   color: #fff;
   border: none;
-  margin: 5px 0px;
-  border-radius: 3px;
-  padding: 5px 10px;
   cursor: pointer;
+  transition-duration: 1s;
+}
+
+button:hover {
+  transition-duration: 1s;
+  color: #f00;
 }
 
 img {
+  width: 500px;
   border-radius: 5px;
+}
+
+.logo {
+  padding: 5px 15px;
+  height: 10vh;
+  width: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+@keyframes moveUp {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+.logo:hover {
+  filter: hue-rotate(120deg);
+  -webkit-filter: hue-rotate(120deg);
+  animation: moveUp 3s ease-in-out infinite alternate;
 }
 
 .chat-container {
@@ -41,6 +72,36 @@ img {
   padding: 20px;
   display: flex;
   flex-direction: column;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Style for the tooltip text */
+.tooltip::before {
+  content: attr(data-tooltip);
+  font-size: 15px;
+  white-space: nowrap;
+  position: absolute;
+  bottom: 100%; /* Position the tooltip above the element */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px;
+  background-color: #202020;
+  color: #fff;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  visibility: hidden;
+}
+
+/* Show the tooltip on hover */
+.tooltip:hover::before {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Chat History */
@@ -61,11 +122,11 @@ img {
 }
 
 .user .message-sender {
-  color: #00ffae;
+  color: #f00;
 }
 
 .server .message-sender {
-  color: #f00;
+  color: #a7a7a7;
 }
 
 .message-bubble {
@@ -83,6 +144,7 @@ img {
 
 .chat-input {
   display: flex;
+  align-items: center;
 }
 
 @-webkit-keyframes fadeinout {
@@ -136,4 +198,16 @@ img {
 .loading span:nth-child(3) {
   -webkit-animation-delay: 450ms;
   animation-delay: 450ms;
+}
+
+@keyframes redLight {
+  0%, 100% {
+    color: #fff;
+  }
+  50% {
+    color: #f00;
+  }
+  100% {
+    color: #fff;
+  }
 }

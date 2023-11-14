@@ -1,5 +1,5 @@
 <p align="center" width="100%">
-    <img src="./frontend/public/my-virtual-adventure.jpeg" alt="My Virtual Adventure" style="width: 40%; min-width: 300px; display: block; margin: auto;">
+    <img src="./frontend/public/impai.png" alt="ImpAI" style="max-width: 100px; display: block; margin: auto;">
 </p>
 
 <p align="center">
@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-    🚀 My Virtual Adventure is an advanced role play with large language and diffusion models 🧝🏻‍♂️
+    😈 ImpAI is an advanced role play app using large language and diffusion models.
 </p>
 
 <p align="center" width="100%">
@@ -44,5 +44,5 @@ Open your browser at http://localhost:3000
 
 - [ ] Multiple users
 
-- [ ] Audio input ([whisper.cpp](https://github.com/ggerganov/whisper.cpp))
+- [ ] Audio input
 
