@@ -1,5 +1,5 @@
 <p align="center" width="100%">
-    <img src="./frontend/public/impai.png" alt="ImpAI" style="max-width: 100px; display: block; margin: auto;">
+    <img src="./frontend/public/impai.png" alt="ImpAI" style="width: 100px; display: block; margin: auto;">
 </p>
 
 <p align="center">
