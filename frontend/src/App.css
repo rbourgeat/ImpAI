@@ -39,7 +39,9 @@ img {
 }
 
 .logo {
-  padding: 5px 15px;
+  position: fixed;
+  top: 10px;
+  left: 0px;
   height: 10vh;
   width: auto;
   cursor: pointer;
@@ -59,16 +61,16 @@ img {
 }
 
 .logo:hover {
-  filter: hue-rotate(120deg);
-  -webkit-filter: hue-rotate(120deg);
   animation: moveUp 3s ease-in-out infinite alternate;
 }
 
 .chat-container {
-  width: auto;
+  position: absolute;
+  bottom: 0px;
+  width: 90vw;
   height: auto;
   color: #fff;
-  margin: 50px;
+  margin: 10px 50px;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -107,7 +109,7 @@ img {
 /* Chat History */
 .chat-history {
   overflow-y: auto;
-  max-height: 70vh;
+  max-height: 80vh;
 }
 
 .paragraph {
@@ -121,11 +123,11 @@ img {
   margin: 10px 0;
 }
 
-.user .message-sender {
+.server .message-sender {
   color: #f00;
 }
 
-.server .message-sender {
+.user .message-sender {
   color: #a7a7a7;
 }
 
@@ -210,4 +212,18 @@ img {
   100% {
     color: #fff;
   }
+}
+
+.settingIcon {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  font-size: 28px;
+  cursor: pointer;
+  transition-duration: 1s;
+}
+
+.settingIcon:hover {
+  transition-duration: 1s;
+  color: #f00;
 }

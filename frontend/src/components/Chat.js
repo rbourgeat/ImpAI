@@ -87,7 +87,7 @@ function Chat() {
                             </div>
                         ) : (
                             <div>
-                                <span className="message-sender">{message.sender === 'user' ? 'You' : 'Game Master'}</span>
+                                <span className="message-sender">{message.sender === 'user' ? 'You' : 'ImpAI'}</span>
                                 <div className="message-bubble">
                                     {message.text.split('\n').map((paragraph, index) => (
                                         <p key={index} className="paragraph">
