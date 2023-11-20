@@ -38,7 +38,7 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
     setPrompt(userPrompt
       .replace('[CHAT_HISTORY]', JSON.stringify(chatHistory))
       .replace('[MESSAGE]', message));
-  }, [prompt])
+  }, [userPrompt, chatHistory, message])
 
   return (
     <div className="App">
