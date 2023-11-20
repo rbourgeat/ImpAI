@@ -1,9 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { IoSend, IoImagesOutline } from "react-icons/io5";
 
-function Chat() {
-  const [message, setMessage] = useState('');
-  const [chatHistory, setChatHistory] = useState([]);
+function Chat({prompt, setPrompt, message, setMessage, chatHistory, setChatHistory}) {
   const chatBottomRef = useRef(null);
   const [waitingText, setwaitingText] = useState(false);
   const [waitingImage, setwaitingImage] = useState(false);
@@ -46,11 +44,7 @@ function Chat() {
         setMessage('');
         setwaitingText(true);
 
-        const prompt = `<s>[INST] You are a game master of a role play. \
-            You need to act as a narrator for simulate dialog for describe \
-            scene, etc... but you can't speak for the player. \
-            This is the role play history: ${JSON.stringify(chatHistory)}, \
-            the player say: ${message}, continue the rp. [/INST]`;
+        console.log(prompt)
 
         fetch('http://localhost:7542/completion', {
             method: 'POST',
@@ -102,7 +96,7 @@ function Chat() {
                 ))}
                 { waitingText && (
                     <div className={`message server`}>
-                        <span className="message-sender">Game Master</span>
+                        <span className="message-sender">ImpAI</span>
                         <div className="message-bubble">
                             <div className="loading"><span></span><span></span><span></span></div>
                         </div>
@@ -117,12 +111,12 @@ function Chat() {
                     </button>
                 </div>
                 <input
-                type="text"
-                value={message}
-                onChange={e => setMessage(e.target.value)}
-                onKeyDown={handleEnter}
-                disabled={waitingText}
-                placeholder={waitingText ? "Generating Response..." : "Type your action..."}
+                    type="text"
+                    value={message}
+                    onChange={e => setMessage(e.target.value)}
+                    onKeyDown={handleEnter}
+                    disabled={waitingText}
+                    placeholder={waitingText ? "Generating Response..." : "Type your action..."}
                 />
                 <div class="tooltip" data-tooltip={waitingText ? "Generating Response..." : "Send Message"}>
                     <button onClick={handleSendMessage} disabled={waitingText}>

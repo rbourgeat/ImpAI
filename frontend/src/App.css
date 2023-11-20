@@ -18,6 +18,20 @@ input {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+textarea {
+  min-width: 400px;
+  min-height: 100px;
+  flex: 1;
+  padding: 15px;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  background-color: #444;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  resize: none;
+}
+
 button {
   font-size: 25px;
   padding: 15px;
@@ -36,6 +50,37 @@ button:hover {
 img {
   width: 500px;
   border-radius: 5px;
+}
+
+p {
+  display: flex;
+  align-items: left;
+}
+
+p .icon {
+  margin-right: 10px;
+}
+
+a {
+  display: flex;
+  align-items: left;
+  cursor: pointer;
+  transition-duration: 1s;
+}
+
+a:hover {
+  transition-duration: 1s;
+  color: #f00;
+}
+
+ul, ol {
+  list-style: none;
+  margin: 0px 10px;
+  padding: 0;
+}
+
+li {
+  padding: 10px;
 }
 
 .logo {
@@ -226,4 +271,27 @@ img {
 .settingIcon:hover {
   transition-duration: 1s;
   color: #f00;
+}
+
+.burger-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-settings {
+  position: absolute;
+  top: 10px; 
+  right: 10px; 
+  border-radius: 15px;
+  overflow: hidden;
+  max-height: 0;
+  background-color: #5e5e5e;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: max-height 0.5s ease-out;
+}
+
+.menu-settings.open {
+  transition-duration: 0.5s;
+  max-height: 300px;
 }
