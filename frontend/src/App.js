@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IoSettingsOutline, IoClose, IoChatboxEllipses } from "react-icons/io5";
+import { IoSettingsOutline, IoClose, IoChatboxEllipses, IoImage } from "react-icons/io5";
 import Chat from './components/Chat';
 import './App.css';
 
@@ -9,6 +9,10 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
+  const [width, setWidth] = useState(
+    localStorage.getItem('width') ? Number(localStorage.getItem('width')) : 1024);
+  const [height, setHeight] = useState(
+    localStorage.getItem('height') ? Number(localStorage.getItem('height')) : 512);
 
   const initialPrompt = `<s>[INST] You are a game master of a role play. \
 You need to act as a narrator for simulate dialog for describe \
@@ -60,16 +64,40 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
                 }}
                 placeholder="hello"
             />
+            <br/>
+            <p><IoImage className="icon" /> Images Settings:</p>
+            <div className="align-items">
+              <p>Width:</p>
+              <input 
+                type="number" 
+                value={width} 
+                onChange={e => {
+                  setWidth(Number(e.target.value));
+                  localStorage.setItem('width', Number(e.target.value));
+                }} 
+              />
+              <br/>
+              <p>Height:</p>
+              <input 
+                type="number" 
+                value={height} 
+                onChange={e => {
+                  setHeight(Number(e.target.value));
+                  localStorage.setItem('height', Number(e.target.value));
+                }} 
+              />
+            </div>
           </li>
         </ul>
       </div>
       <Chat 
         prompt={prompt}
-        setPrompt={setPrompt}
         message={message}
         setMessage={setMessage}
         chatHistory={chatHistory}
         setChatHistory={setChatHistory}
+        width={width}
+        height={height}
       />
     </div>
   );

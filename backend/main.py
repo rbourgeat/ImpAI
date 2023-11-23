@@ -98,7 +98,11 @@ def generate_image():
 
     is_generating_image = True
 
-    keywords = keywords = request.get_json()["keywords"]
+    print(request.get_json())
+
+    keywords = request.get_json()["keywords"]
+    width = request.get_json()["width"]
+    height = request.get_json()["height"]
 
     better_prompt = (
         "((best quality, masterpiece, detailed, cinematic, intricate details)), "
@@ -117,8 +121,8 @@ def generate_image():
     pipe(
         better_prompt,
         negative_prompt=negative_prompt,
-        height=SD_HEIGHT,
-        width=SD_WIDTH,
+        height=height,
+        width=width,
         num_inference_steps=SD_STEPS,
     ).images[0].save(str("images/" + random_file_name))
 

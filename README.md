@@ -12,7 +12,7 @@
 </p>
 
 <p align="center" width="100%">
-    <img src="./frontend/public/example.png" alt="Example" style="width: 75%; min-width: 300px; display: block; margin: auto;">
+    <img src="./frontend/public/example.png" alt="ImpAI Example" style="width: 75%; min-width: 300px; display: block; margin: auto;">
 </p>
 
 ## 🎬 Start here
@@ -28,6 +28,12 @@ chmod +x start.sh
 
 Open your browser at http://localhost:3000
 
+## 🛠️ Config
+
+You can edit the **prompt** and generated **images size** at the top right of the screen !
+
+<img src="./frontend/public/demo_settings_impai.gif" alt="ImpAI Settings">
+
 ## 📋 Todo List
 
 - [x] Chat with LLM as Role Play Game Master
@@ -36,11 +42,9 @@ Open your browser at http://localhost:3000
 
 - [ ] Settings menu:
     - [x] Prompt
+    - [x] Image size
     - [ ] LLM Model
     - [ ] SD Model
-    - [ ] Image size
-
-- [ ] Dockerize
 
 - [ ] Save system
 
@@ -49,6 +53,8 @@ Open your browser at http://localhost:3000
 - [ ] Character creator
 
 - [ ] Multiple users
+
+- [ ] RPG mode with dices
 
 - [ ] Audio input
 

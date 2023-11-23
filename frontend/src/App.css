@@ -260,6 +260,7 @@ li {
 }
 
 .settingIcon {
+  color: white;
   position: fixed;
   right: 20px;
   top: 20px;
@@ -285,14 +286,31 @@ li {
   top: 10px; 
   right: 10px; 
   border-radius: 15px;
-  overflow: hidden;
-  max-height: 0;
+  overflow: scroll;
+  color: transparent;
+  max-height: 50px;
+  max-width: 50px;
   background-color: #5e5e5e;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: max-height 0.5s ease-out;
+  transition: 0.5s ease-out;
 }
 
 .menu-settings.open {
-  transition-duration: 0.5s;
+  transition: 0.5s ease-in;
   max-height: 300px;
+  max-width: 600px;
+  color: white;
+}
+
+.align-items {
+  display: flex;
+  flex-direction: row;
+}
+
+.align-items p {
+  margin: 10px;
+}
+
+.align-items input {
+  width: 50px;
 }

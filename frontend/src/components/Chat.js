@@ -1,7 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { IoSend, IoImagesOutline } from "react-icons/io5";
 
-function Chat({prompt, setPrompt, message, setMessage, chatHistory, setChatHistory}) {
+function Chat({
+    prompt,
+    message,
+    setMessage,
+    chatHistory,
+    setChatHistory,
+    width,
+    height
+}) {
   const chatBottomRef = useRef(null);
   const [waitingText, setwaitingText] = useState(false);
   const [waitingImage, setwaitingImage] = useState(false);
@@ -27,7 +35,7 @@ function Chat({prompt, setPrompt, message, setMessage, chatHistory, setChatHisto
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({"keywords": data.content}),
+                body: JSON.stringify({"keywords": data.content, width: width, height: height}),
             })
             .then(response => response.json())
             .then(data => {
