@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { IoSend, IoImagesOutline } from "react-icons/io5";
 
 function Chat({
+    firstPrompt,
     prompt,
     message,
     setMessage,
@@ -16,7 +17,7 @@ function Chat({
 
     const generateImage = () => {
         setwaitingImage(true);
-        const prompt = `<s>[INST] Write only keywords that could resume the \
+        const imagePrompt = `<s>[INST] Write only keywords that could resume the \
             following text, give me only keywords:
             ${JSON.stringify(chatHistory)} [/INST]`;
 
@@ -25,7 +26,7 @@ function Chat({
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({"prompt": prompt, "n_predict": -1}),
+            body: JSON.stringify({"prompt": imagePrompt, "n_predict": -1}),
         })
         .then(response => response.json())
         .then(data => {
@@ -52,14 +53,14 @@ function Chat({
         setMessage('');
         setwaitingText(true);
 
-        console.log(prompt)
+        console.log(chatHistory.length === 0 ? firstPrompt : prompt);
 
         fetch('http://localhost:7542/completion', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({"prompt": prompt, "n_predict": -1}),
+            body: JSON.stringify({"prompt": chatHistory.length === 0 ? firstPrompt : prompt, "n_predict": -1}),
         })
         .then(response => response.json())
         .then(data => {
@@ -85,7 +86,7 @@ function Chat({
                 <div key={index} className={`message ${message.sender}`}>
                     { message.sender === 'image' ? (
                             <div className="message-bubble">
-                                <img src={message.text} alt="Generated Image" />
+                                <img src={message.text} alt="If it don't render, check logs and open issue :)" />
                             </div>
                         ) : (
                             <div>
@@ -113,7 +114,7 @@ function Chat({
                 <div ref={chatBottomRef} />
             </div>
             <div className="chat-input">
-                <div class="tooltip" data-tooltip={waitingImage ? "Generating Image..." : "Generate Image"}>
+                <div className="tooltip" data-tooltip={waitingImage ? "Generating Image..." : "Generate Image"}>
                     <button onClick={generateImage} disabled={waitingImage}>
                         <IoImagesOutline />
                     </button>
@@ -126,7 +127,7 @@ function Chat({
                     disabled={waitingText}
                     placeholder={waitingText ? "Generating Response..." : "Type your action..."}
                 />
-                <div class="tooltip" data-tooltip={waitingText ? "Generating Response..." : "Send Message"}>
+                <div className="tooltip" data-tooltip={waitingText ? "Generating Response..." : "Send Message"}>
                     <button onClick={handleSendMessage} disabled={waitingText}>
                         <IoSend />
                     </button>

@@ -1,7 +1,13 @@
 #!/bin/bash
 
+# English Mistral 7b Q4_K_M by dafault
 MODEL=mistral-7b-instruct-v0.1.Q4_K_M.gguf
 MODEL_HF=TheBloke/Mistral-7B-Instruct-v0.1-GGUF:q4_k_m
+
+# French Mistral 7b Q4_K_M for example
+# MODEL=vigostral-7b-chat.Q4_K_M.gguf
+# MODEL_HF=TheBloke/Vigostral-7B-Chat-GGUF:q4_k_m
+
 MODEL_PATH=models/
 
 MODEL_HF_UNDERSCORE=$(echo "$(echo "$MODEL_HF" | sed 's/\//_/g')" | cut -d':' -f1)

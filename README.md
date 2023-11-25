@@ -30,9 +30,24 @@ Open your browser at http://localhost:3000
 
 ## 🛠️ Config
 
-You can edit the **prompt** and generated **images size** at the top right of the screen !
+You can change **root prompt**, **prompt** and **size of images** generated at the top right of the screen !
+
+> ℹ️ `root prompt` is the first template used by **ImpAI** and `prompt` is the template used for every next messages
 
 <img src="./frontend/public/demo_settings_impai.gif" alt="ImpAI Settings">
+
+If you want to modify the model you can change it in the file `start.sh`
+(`MODEL` is the `file name` and `MODEL_HF` is the `repository + the quantization`):
+
+```bash
+# English Mistral 7b Q4_K_M by dafault
+MODEL=mistral-7b-instruct-v0.1.Q4_K_M.gguf
+MODEL_HF=TheBloke/Mistral-7B-Instruct-v0.1-GGUF:q4_k_m
+
+# French Mistral 7b Q4_K_M for example
+# MODEL=vigostral-7b-chat.Q4_K_M.gguf
+# MODEL_HF=TheBloke/Vigostral-7B-Chat-GGUF:q4_k_m
+```
 
 ## 📋 Todo List
 

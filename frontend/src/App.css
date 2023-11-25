@@ -73,14 +73,8 @@ a:hover {
   color: #f00;
 }
 
-ul, ol {
-  list-style: none;
-  margin: 0px 10px;
-  padding: 0;
-}
-
-li {
-  padding: 10px;
+::-webkit-scrollbar {
+  display: none;
 }
 
 .logo {
@@ -274,12 +268,6 @@ li {
   color: #f00;
 }
 
-.burger-icon {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
 .menu-settings {
   z-index: 100;
   position: absolute;
@@ -287,7 +275,6 @@ li {
   right: 10px; 
   border-radius: 15px;
   overflow: scroll;
-  color: transparent;
   max-height: 50px;
   max-width: 50px;
   background-color: #5e5e5e;
@@ -295,11 +282,20 @@ li {
   transition: 0.5s ease-out;
 }
 
+.menu-settings > div {
+  visibility: hidden;
+}
+
 .menu-settings.open {
-  transition: 0.5s ease-in;
   max-height: 300px;
   max-width: 600px;
   color: white;
+  padding: 20px;
+  transition: 0.5s ease-in;
+}
+
+.menu-settings.open > div {
+  visibility: visible;
 }
 
 .align-items {
@@ -313,4 +309,10 @@ li {
 
 .align-items input {
   width: 50px;
+}
+
+.icon {
+  width: 30px;
+  height: auto;
+  margin: -15px 0px;
 }
