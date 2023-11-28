@@ -22,8 +22,7 @@
 Run the following commands for download models and build the project:
 
 ```bash
-chmod +x start.sh
-./start.sh
+bash start.sh
 ```
 
 Open your browser at http://localhost:4242

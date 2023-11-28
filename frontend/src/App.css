@@ -44,7 +44,7 @@ button {
 
 button:hover {
   transition-duration: 1s;
-  color: #f00;
+  color: rgb(255, 42, 42);
 }
 
 img {
@@ -70,7 +70,7 @@ a {
 
 a:hover {
   transition-duration: 1s;
-  color: #f00;
+  color: rgb(255, 42, 42);
 }
 
 ::-webkit-scrollbar {
@@ -121,7 +121,6 @@ a:hover {
   cursor: pointer;
 }
 
-/* Style for the tooltip text */
 .tooltip::before {
   content: attr(data-tooltip);
   font-size: 15px;
@@ -139,13 +138,17 @@ a:hover {
   visibility: hidden;
 }
 
-/* Show the tooltip on hover */
+.tooltip.left::before {
+  bottom: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
 .tooltip:hover::before {
   opacity: 1;
   visibility: visible;
 }
 
-/* Chat History */
 .chat-history {
   overflow-y: auto;
   max-height: 80vh;
@@ -155,7 +158,6 @@ a:hover {
   margin: 8px 0px;
 }
 
-/* Message Bubble */
 .message {
   display: flex;
   flex-direction: column;
@@ -163,7 +165,7 @@ a:hover {
 }
 
 .server .message-sender {
-  color: #f00;
+  color: rgb(255, 42, 42);
 }
 
 .user .message-sender {
@@ -241,18 +243,6 @@ a:hover {
   animation-delay: 450ms;
 }
 
-@keyframes redLight {
-  0%, 100% {
-    color: #fff;
-  }
-  50% {
-    color: #f00;
-  }
-  100% {
-    color: #fff;
-  }
-}
-
 .icon-settings {
   color: white;
   position: fixed;
@@ -265,7 +255,7 @@ a:hover {
 
 .icon-settings:hover {
   transition-duration: 1s;
-  color: #f00;
+  color: rgb(255, 42, 42);
 }
 
 .menu-settings {
@@ -302,7 +292,7 @@ a:hover {
   color: white;
   position: fixed;
   right: 20px;
-  top: 110px;
+  top: 90px;
   font-size: 28px;
   cursor: pointer;
   transition-duration: 1s;
@@ -310,13 +300,24 @@ a:hover {
 
 .icon-npc:hover {
   transition-duration: 1s;
-  color: #f00;
+  color: rgb(255, 42, 42);
+}
+
+.icon-impai-head {
+  width: 50px;
+  height: auto;
+  transition-duration: 1s;
+}
+
+.icon-impai-head:hover {
+  transition-duration: 1s;
+  background: rgb(255, 42, 42);
 }
 
 .menu-npc {
   z-index: 99;
   position: absolute;
-  top: 100px; 
+  top: 80px; 
   right: 10px; 
   border-radius: 15px;
   overflow: scroll;
@@ -363,8 +364,20 @@ a:hover {
 }
 
 .create-npc {
+  color: white;
+  cursor: pointer;
   font-size: 20px;
+  margin: 15px;
   padding: 15px;
+  border-radius: 15px;
+  background-color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition-duration: 1s;
+}
+
+.create-npc:hover {
+  transition-duration: 1s;
+  color: rgb(255, 42, 42);
 }
 
 .icon-user {

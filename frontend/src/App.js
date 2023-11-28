@@ -96,7 +96,7 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
       <img src={imageUrl} alt="ImpAI" className="logo" onClick={handleClick} />
       <div className={`menu-settings ${isSettingsMenuOpen ? 'open' : ''}`}>
         <a onClick={toggleSettingsMenu}>
-          {isSettingsMenuOpen ? <IoClose className="icon-settings" /> : <IoSettingsOutline className="icon-settings" />}
+          {isSettingsMenuOpen ? <IoClose className="icon-settings" /> : <img src="worker_impai.png" alt="S" className="icon-impai-head" />}
         </a>
         <div>
           <p><IoReader className="icon" /> Root Prompt:</p>
@@ -147,15 +147,15 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
       </div>
       <div className={`menu-npc ${isNPCMenuOpen ? 'open' : ''}`}>
         <a onClick={toggleNPCMenu}>
-          {isNPCMenuOpen ? <IoClose className="icon-npc" /> : <IoSettingsOutline className="icon-npc" />}
+          {isNPCMenuOpen ? <IoClose className="icon-npc" /> : <img src="astro_impai.png" alt="C" className="icon-impai-head" />}
         </a>
         <div>
-          <button onClick={addNpc} className="create-npc">
+          <div onClick={addNpc} className="create-npc">
             <div className="align-items">
               <IoPersonAdd className="icon-user" />
               Create Character
             </div>
-          </button>
+          </div>
           <br />
           {npcList.map((npc, index) => (
             <div style={{padding: "10px"}}>
