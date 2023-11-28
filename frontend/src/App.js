@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { IoSettingsOutline, IoClose, IoChatboxEllipses, IoImage, IoCreate } from "react-icons/io5";
+import { IoSettingsOutline, IoClose, IoReceipt, IoImage, IoReader, IoPersonAdd, IoTrashBin } from "react-icons/io5";
 import Chat from './components/Chat';
 import './App.css';
 
 function App() {
   const [clickCount, setClickCount] = useState(0);
   const [imageUrl, setImageUrl] = useState('impai.png');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSettingsMenuOpen, setIsSettingsMenuOpen] = useState(false);
+  const [isNPCMenuOpen, setIsNPCMenuOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const [width, setWidth] = useState(
     localStorage.getItem('width') ? Number(localStorage.getItem('width')) : 1024);
   const [height, setHeight] = useState(
     localStorage.getItem('height') ? Number(localStorage.getItem('height')) : 512);
+  const [npcList, setNpcList] = useState([]);
 
   const defaultFirstPrompt = `<s>[INST] You are a game master of a role play. \
 You need to act as a narrator for simulate the beginning of the story. \
@@ -37,8 +39,14 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
     .replace('[CHAT_HISTORY]', JSON.stringify(chatHistory))
     .replace('[MESSAGE]', message));
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const toggleSettingsMenu = () => {
+    setIsSettingsMenuOpen(!isSettingsMenuOpen);
+    setIsNPCMenuOpen(false);
+  };
+
+  const toggleNPCMenu = () => {
+    setIsNPCMenuOpen(!isNPCMenuOpen);
+    setIsSettingsMenuOpen(false);
   };
 
   const handleClick = () => {
@@ -47,6 +55,29 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
     if (clickCount === 9) {
       setImageUrl('angry_impai.png');
     }
+  };
+
+  const addNpc = () => {
+    setNpcList((prevNpcList) => [
+      ...prevNpcList, 
+      "ImpAI is my best friend, he is kawaii and love roleplays !"
+    ]);
+  }
+
+  const editNpc = (index, newValue) => {
+    setNpcList((prevNpcList) => {
+      const updatedNpcList = [...prevNpcList];
+      updatedNpcList[index] = newValue;
+      return updatedNpcList;
+    });
+  };
+
+  const deleteNpc = (index) => {
+    setNpcList((prevNpcList) => {
+      const updatedNpcList = [...prevNpcList];
+      updatedNpcList.splice(index, 1);
+      return updatedNpcList;
+    });
   };
 
   useEffect(() => {
@@ -61,14 +92,14 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
   }, [firstUserPrompt, message])
 
   return (
-    <div className="App">
+    <div>
       <img src={imageUrl} alt="ImpAI" className="logo" onClick={handleClick} />
-      <div className={`menu-settings ${isMenuOpen ? 'open' : ''}`}>
-        <a onClick={toggleMenu}>
-          {isMenuOpen ? <IoClose className="settingIcon" /> : <IoSettingsOutline className="settingIcon" />}
+      <div className={`menu-settings ${isSettingsMenuOpen ? 'open' : ''}`}>
+        <a onClick={toggleSettingsMenu}>
+          {isSettingsMenuOpen ? <IoClose className="icon-settings" /> : <IoSettingsOutline className="icon-settings" />}
         </a>
         <div>
-          <p><IoCreate className="icon" /> Root Prompt:</p>
+          <p><IoReader className="icon" /> Root Prompt:</p>
           <textarea
               type="text"
               value={firstUserPrompt}
@@ -79,7 +110,7 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
               placeholder={defaultFirstPrompt}
           />
           <br/>
-          <p><IoChatboxEllipses className="icon" /> Prompt:</p>
+          <p><IoReceipt className="icon" /> Prompt:</p>
           <textarea
               type="text"
               value={userPrompt}
@@ -112,6 +143,38 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
               }}
             />
           </div>
+        </div>
+      </div>
+      <div className={`menu-npc ${isNPCMenuOpen ? 'open' : ''}`}>
+        <a onClick={toggleNPCMenu}>
+          {isNPCMenuOpen ? <IoClose className="icon-npc" /> : <IoSettingsOutline className="icon-npc" />}
+        </a>
+        <div>
+          <button onClick={addNpc} className="create-npc">
+            <div className="align-items">
+              <IoPersonAdd className="icon-user" />
+              Create Character
+            </div>
+          </button>
+          <br />
+          {npcList.map((npc, index) => (
+            <div style={{padding: "10px"}}>
+              <div className="align-items">
+                <textarea
+                  type="text"
+                  value={npc}
+                  onChange={(e) => editNpc(index, e.target.value)}
+                  placeholder="ImpAI is my best friend, he is kawaii and love roleplays !"
+                />
+                <button 
+                  className="user-delete"
+                  onClick={() => deleteNpc(index)}
+                >
+                  <IoTrashBin />
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       <Chat

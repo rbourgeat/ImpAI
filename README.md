@@ -26,7 +26,7 @@ chmod +x start.sh
 ./start.sh
 ```
 
-Open your browser at http://localhost:3000
+Open your browser at http://localhost:4242
 
 ## 🛠️ Config
 
@@ -36,11 +36,11 @@ You can change **root prompt**, **prompt** and **size of images** generated at t
 
 <img src="./frontend/public/demo_settings_impai.gif" alt="ImpAI Settings">
 
-If you want to modify the model you can change it in the file `start.sh`
-(`MODEL` is the `file name` and `MODEL_HF` is the `repository + the quantization`):
+> ℹ️ You can modify the model in the file `start.sh`
+(`MODEL` == `file name` and `MODEL_HF` == `repository + quantization`):
 
 ```bash
-# English Mistral 7b Q4_K_M by dafault
+# English Mistral 7b Q4_K_M by default
 MODEL=mistral-7b-instruct-v0.1.Q4_K_M.gguf
 MODEL_HF=TheBloke/Mistral-7B-Instruct-v0.1-GGUF:q4_k_m
 

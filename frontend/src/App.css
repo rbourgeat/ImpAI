@@ -253,7 +253,7 @@ a:hover {
   }
 }
 
-.settingIcon {
+.icon-settings {
   color: white;
   position: fixed;
   right: 20px;
@@ -263,7 +263,7 @@ a:hover {
   transition-duration: 1s;
 }
 
-.settingIcon:hover {
+.icon-settings:hover {
   transition-duration: 1s;
   color: #f00;
 }
@@ -298,6 +298,51 @@ a:hover {
   visibility: visible;
 }
 
+.icon-npc {
+  color: white;
+  position: fixed;
+  right: 20px;
+  top: 110px;
+  font-size: 28px;
+  cursor: pointer;
+  transition-duration: 1s;
+}
+
+.icon-npc:hover {
+  transition-duration: 1s;
+  color: #f00;
+}
+
+.menu-npc {
+  z-index: 99;
+  position: absolute;
+  top: 100px; 
+  right: 10px; 
+  border-radius: 15px;
+  overflow: scroll;
+  max-height: 50px;
+  max-width: 50px;
+  background-color: #5e5e5e;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: 0.5s ease-out;
+}
+
+.menu-npc > div {
+  visibility: hidden;
+}
+
+.menu-npc.open {
+  max-height: 300px;
+  max-width: 500px;
+  color: white;
+  padding: 20px;
+  transition: 0.5s ease-in;
+}
+
+.menu-npc.open > div {
+  visibility: visible;
+}
+
 .align-items {
   display: flex;
   flex-direction: row;
@@ -315,4 +360,13 @@ a:hover {
   width: 30px;
   height: auto;
   margin: -15px 0px;
+}
+
+.create-npc {
+  font-size: 20px;
+  padding: 15px;
+}
+
+.icon-user {
+  padding: 0px 10px;
 }

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# English Mistral 7b Q4_K_M by dafault
+# English Mistral 7b Q4_K_M by default
 MODEL=mistral-7b-instruct-v0.1.Q4_K_M.gguf
 MODEL_HF=TheBloke/Mistral-7B-Instruct-v0.1-GGUF:q4_k_m
 
