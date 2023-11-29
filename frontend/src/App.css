@@ -73,6 +73,16 @@ a:hover {
   color: rgb(255, 42, 42);
 }
 
+beta {
+  font-size: 15px;
+  padding: 10px;
+  margin-top: -7px;
+  margin-right: 10px;
+  margin-left: 10px;
+  border-radius: 15px;
+  background-color: orange;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }
@@ -366,7 +376,7 @@ a:hover {
 .create-npc {
   color: white;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 18px;
   margin: 15px;
   padding: 15px;
   border-radius: 15px;

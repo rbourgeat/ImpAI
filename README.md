@@ -1,5 +1,5 @@
 <p align="center" width="100%">
-    <img src="./frontend/public/impai.png" alt="ImpAI" style="width: 100px; display: block; margin: auto;">
+    <img src="./frontend/public/title_impai.png" alt="ImpAI" style="width: 150px; display: block; margin: auto;">
 </p>
 
 <p align="center">
@@ -15,7 +15,7 @@
     <img src="./frontend/public/example.png" alt="ImpAI Example" style="width: 75%; min-width: 300px; display: block; margin: auto;">
 </p>
 
-## 🎬 Start here
+# <img src="./frontend/public/astro_impai.png" alt="ImpAI" width="50px" align="left"> Start here
 
 > ℹ️ You need [NodeJS](https://nodejs.org) and [Python3.10](https://www.python.org/)
 
@@ -27,7 +27,7 @@ bash start.sh
 
 Open your browser at http://localhost:4242
 
-## 🛠️ Config
+# <img src="./frontend/public/worker_impai.png" alt="ImpAI" width="50px" align="left"> Config
 
 You can change **root prompt**, **prompt** and **size of images** generated at the top right of the screen !
 
@@ -48,7 +48,7 @@ MODEL_HF=TheBloke/Mistral-7B-Instruct-v0.1-GGUF:q4_k_m
 # MODEL_HF=TheBloke/Vigostral-7B-Chat-GGUF:q4_k_m
 ```
 
-## 📋 Todo List
+# <img src="./frontend/public/angry_impai.png" alt="ImpAI" width="50px" align="left"> Todo List
 
 - [x] Chat with LLM as Role Play Game Master
 

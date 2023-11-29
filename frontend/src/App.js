@@ -4,6 +4,7 @@ import Chat from './components/Chat';
 import './App.css';
 
 function App() {
+  const npcExemple = "ImpAI is a little AI. He is kawaii and love help everyone."
   const [clickCount, setClickCount] = useState(0);
   const [imageUrl, setImageUrl] = useState('impai.png');
   const [isSettingsMenuOpen, setIsSettingsMenuOpen] = useState(false);
@@ -60,7 +61,7 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
   const addNpc = () => {
     setNpcList((prevNpcList) => [
       ...prevNpcList, 
-      "ImpAI is my best friend, he is kawaii and love roleplays !"
+      npcExemple
     ]);
   }
 
@@ -81,8 +82,16 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
   };
 
   useEffect(() => {
+    const filteredChatHistory = chatHistory.map(item => {
+      if (item.sender === "image") {
+        return "";
+      } else {
+        return item;
+      }
+    });
+
     setPrompt(userPrompt
-      .replace('[CHAT_HISTORY]', JSON.stringify(chatHistory))
+      .replace('[CHAT_HISTORY]', JSON.stringify(filteredChatHistory))
       .replace('[MESSAGE]', message));
   }, [userPrompt, chatHistory, message])
 
@@ -154,17 +163,18 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
             <div className="align-items">
               <IoPersonAdd className="icon-user" />
               Create Character
+              <beta>BETA</beta>
             </div>
           </div>
           <br />
           {npcList.map((npc, index) => (
-            <div style={{padding: "10px"}}>
+            <div style={{padding: "10px"}} key={index}>
               <div className="align-items">
                 <textarea
                   type="text"
                   value={npc}
                   onChange={(e) => editNpc(index, e.target.value)}
-                  placeholder="ImpAI is my best friend, he is kawaii and love roleplays !"
+                  placeholder={npcExemple}
                 />
                 <button 
                   className="user-delete"
@@ -186,6 +196,7 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
         setChatHistory={setChatHistory}
         width={width}
         height={height}
+        npcList={npcList}
       />
     </div>
   );

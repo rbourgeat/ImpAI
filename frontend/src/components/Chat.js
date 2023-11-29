@@ -9,7 +9,8 @@ function Chat({
     chatHistory,
     setChatHistory,
     width,
-    height
+    height,
+    npcList
 }) {
   const chatBottomRef = useRef(null);
   const [waitingText, setwaitingText] = useState(false);
@@ -17,8 +18,8 @@ function Chat({
 
     const generateImage = () => {
         setwaitingImage(true);
-        const imagePrompt = `<s>[INST] Write only keywords that could resume the \
-            following text, give me only keywords:
+        const imagePrompt = `<s>[INST] Generate keywords that could resume the \
+            following text, give me only best keywords:
             ${JSON.stringify(chatHistory)} [/INST]`;
 
         fetch('http://localhost:7542/completion', {
@@ -53,14 +54,18 @@ function Chat({
         setMessage('');
         setwaitingText(true);
 
-        console.log(chatHistory.length === 0 ? firstPrompt : prompt);
+        const realPrompt = chatHistory.length === 0 ? firstPrompt : prompt;
+        const addNpcToPrompt = [...realPrompt, " and you must take into account the following non player characters: ", ...npcList.join(' ')];
+        const updatedPrompt = npcList.length > 0 ? addNpcToPrompt.join('') : realPrompt;
+
+        console.log(updatedPrompt);
 
         fetch('http://localhost:7542/completion', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({"prompt": chatHistory.length === 0 ? firstPrompt : prompt, "n_predict": -1}),
+            body: JSON.stringify({"prompt": updatedPrompt, "n_predict": -1}),
         })
         .then(response => response.json())
         .then(data => {
