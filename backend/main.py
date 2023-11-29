@@ -22,24 +22,31 @@ pipe = None
 try:
     if system == "Darwin":
         pipe = AutoPipelineForText2Image.from_pretrained("stabilityai/sdxl-turbo", local_files_only=True).to("mps")
-    else:
+    elif torch.cuda.is_available():
         pipe = AutoPipelineForText2Image.from_pretrained(
             "stabilityai/sdxl-turbo",
             torch_dtype=torch.float16,
             variant="fp16",
             local_files_only=True
         ).to("cuda")
+    else:
+        pipe = AutoPipelineForText2Image.from_pretrained(
+            "stabilityai/sdxl-turbo",
+            local_files_only=True
+        ).to("cpu")
 
 except Exception as e:
     app.logger.info("An error occurred:", str(e))
     if system == "Darwin":
         pipe = AutoPipelineForText2Image.from_pretrained("stabilityai/sdxl-turbo").to("mps")
-    else:
+    elif torch.cuda.is_available():
         pipe = AutoPipelineForText2Image.from_pretrained(
             "stabilityai/sdxl-turbo",
             torch_dtype=torch.float16,
             variant="fp16"
         ).to("cuda")
+    else:
+        pipe = AutoPipelineForText2Image.from_pretrained("stabilityai/sdxl-turbo").to("cpu")
 
 
 @app.route("/")

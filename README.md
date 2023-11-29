@@ -17,7 +17,7 @@
 
 # <img src="./frontend/public/astro_impai.png" alt="ImpAI" width="50px" align="left"> Start here
 
-> ℹ️ You need [NodeJS](https://nodejs.org) and [Python3.11](https://www.python.org/)
+> ℹ️ You need [NodeJS](https://nodejs.org) and [Python3.11](https://www.python.org)
 
 Run the following commands for download models and build the project:
 
@@ -29,7 +29,7 @@ Open your browser at http://localhost:4242
 
 # <img src="./frontend/public/worker_impai.png" alt="ImpAI" width="50px" align="left"> Config
 
-### You can change **root prompt**, **prompt** and **size of images** generated at the top right of the screen !
+### You can change `root prompt`, `prompt` and `size of images` generated at the top right of the screen !
 
 > ℹ️ `root prompt` is the first template used by **ImpAI** and `prompt` is the template used for every next messages
 
@@ -48,14 +48,14 @@ MODEL_HF=TheBloke/Mistral-7B-Instruct-v0.1-GGUF:q4_k_m
 # MODEL_HF=TheBloke/Vigostral-7B-Chat-GGUF:q4_k_m
 ```
 
-> ℹ️ You can modify the stable diffusion model in the file `start.sh`
+> ℹ️ You can change the stable diffusion model in the file `start.sh`
 
 ```bash
 # Stable Diffusion Model
 SD_MODEL=stabilityai/sdxl-turbo
 ```
 
-### If you want, you can add non player characters to your story !
+### If you want, you can add non-player characters to your story !
 
 <img src="./frontend/public/demo_npc_impai.gif" width="500px" alt="ImpAI NPC">
 
@@ -67,8 +67,8 @@ SD_MODEL=stabilityai/sdxl-turbo
 
 - [x] Settings
 
-- [x] NPC creation
-    - [ ] Automatic npc creation
+- [x] NPC
+    - [ ] Automatic npc
 
 - [ ] Save system
 
