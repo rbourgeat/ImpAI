@@ -44,7 +44,7 @@ button {
 
 button:hover {
   transition-duration: 1s;
-  color: #f00;
+  color: rgb(255, 42, 42);
 }
 
 img {
@@ -70,7 +70,18 @@ a {
 
 a:hover {
   transition-duration: 1s;
-  color: #f00;
+  color: rgb(255, 42, 42);
+}
+
+beta {
+  font-size: 15px;
+  font-weight: 200;
+  padding: 10px;
+  margin-top: -7px;
+  margin-right: 10px;
+  margin-left: 10px;
+  border-radius: 15px;
+  background-color: orange;
 }
 
 ::-webkit-scrollbar {
@@ -121,13 +132,12 @@ a:hover {
   cursor: pointer;
 }
 
-/* Style for the tooltip text */
 .tooltip::before {
   content: attr(data-tooltip);
   font-size: 15px;
   white-space: nowrap;
   position: absolute;
-  bottom: 100%; /* Position the tooltip above the element */
+  bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
   padding: 8px;
@@ -139,13 +149,17 @@ a:hover {
   visibility: hidden;
 }
 
-/* Show the tooltip on hover */
+.tooltip.left::before {
+  bottom: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
 .tooltip:hover::before {
   opacity: 1;
   visibility: visible;
 }
 
-/* Chat History */
 .chat-history {
   overflow-y: auto;
   max-height: 80vh;
@@ -155,7 +169,6 @@ a:hover {
   margin: 8px 0px;
 }
 
-/* Message Bubble */
 .message {
   display: flex;
   flex-direction: column;
@@ -163,7 +176,7 @@ a:hover {
 }
 
 .server .message-sender {
-  color: #f00;
+  color: rgb(255, 42, 42);
 }
 
 .user .message-sender {
@@ -241,19 +254,7 @@ a:hover {
   animation-delay: 450ms;
 }
 
-@keyframes redLight {
-  0%, 100% {
-    color: #fff;
-  }
-  50% {
-    color: #f00;
-  }
-  100% {
-    color: #fff;
-  }
-}
-
-.settingIcon {
+.icon-settings {
   color: white;
   position: fixed;
   right: 20px;
@@ -263,9 +264,9 @@ a:hover {
   transition-duration: 1s;
 }
 
-.settingIcon:hover {
+.icon-settings:hover {
   transition-duration: 1s;
-  color: #f00;
+  color: rgb(255, 42, 42);
 }
 
 .menu-settings {
@@ -298,6 +299,65 @@ a:hover {
   visibility: visible;
 }
 
+.icon-npc {
+  color: white;
+  position: fixed;
+  right: 20px;
+  top: 90px;
+  font-size: 28px;
+  cursor: pointer;
+  transition-duration: 1s;
+}
+
+.icon-npc:hover {
+  transition-duration: 1s;
+  color: rgb(255, 42, 42);
+}
+
+.icon-impai-head {
+  position: fixed;
+  width: 50px;
+  height: auto;
+  border-radius: 15px;
+  transition-duration: 1s;
+}
+
+.icon-impai-head:hover {
+  background: rgb(255, 42, 42);
+  border-radius: 15px;
+  transition-duration: 1s;
+}
+
+.menu-npc {
+  z-index: 99;
+  position: absolute;
+  top: 80px; 
+  right: 10px; 
+  border-radius: 15px;
+  overflow: scroll;
+  max-height: 50px;
+  max-width: 50px;
+  background-color: #5e5e5e;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: 0.5s ease-out;
+}
+
+.menu-npc > div {
+  visibility: hidden;
+}
+
+.menu-npc.open {
+  max-height: 300px;
+  max-width: 500px;
+  color: white;
+  padding: 20px;
+  transition: 0.5s ease-in;
+}
+
+.menu-npc.open > div {
+  visibility: visible;
+}
+
 .align-items {
   display: flex;
   flex-direction: row;
@@ -315,4 +375,25 @@ a:hover {
   width: 30px;
   height: auto;
   margin: -15px 0px;
+}
+
+.create-npc {
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  margin: 15px;
+  padding: 15px;
+  border-radius: 15px;
+  background-color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition-duration: 1s;
+}
+
+.create-npc:hover {
+  transition-duration: 1s;
+  color: rgb(255, 42, 42);
+}
+
+.icon-user {
+  padding: 0px 10px;
 }

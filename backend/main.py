@@ -1,47 +1,52 @@
 import os
 import sys
+import torch
 import string
 import random
 import logging
 import platform
-from diffusers import DiffusionPipeline, DPMSolverMultistepScheduler
+from diffusers import AutoPipelineForText2Image
 from flask import Flask, render_template, request, jsonify, send_from_directory
 from flask_cors import CORS
 
-#############################################################
-# You can edit the following values:
-SD_MODEL = "Lykon/DreamShaper"  # any HuggingFace model
-SD_HEIGHT = 512  # image size
+SD_MODEL = sys.argv[0]
+SD_HEIGHT = 512
 SD_WIDTH = 1024
-SD_STEPS = 22  # number of image iteration
-##############################################################
 
 system = platform.system()
 app = Flask(__name__)
 CORS(app)
 is_generating_image = False
 
-dpm = DPMSolverMultistepScheduler.from_pretrained(SD_MODEL, subfolder="scheduler")
 pipe = None 
 try:
-    pipe = DiffusionPipeline.from_pretrained(
-        SD_MODEL,
-        scheduler=dpm,
-        safety_checker=None,
-        requires_safety_checker=False,
-        local_files_only=True,
-    )
+    if system == "Darwin":
+        pipe = AutoPipelineForText2Image.from_pretrained("stabilityai/sdxl-turbo", local_files_only=True).to("mps")
+    elif torch.cuda.is_available():
+        pipe = AutoPipelineForText2Image.from_pretrained(
+            "stabilityai/sdxl-turbo",
+            torch_dtype=torch.float16,
+            variant="fp16",
+            local_files_only=True
+        ).to("cuda")
+    else:
+        pipe = AutoPipelineForText2Image.from_pretrained(
+            "stabilityai/sdxl-turbo",
+            local_files_only=True
+        ).to("cpu")
+
 except Exception as e:
     app.logger.info("An error occurred:", str(e))
-    pipe = DiffusionPipeline.from_pretrained(
-        SD_MODEL, scheduler=dpm, safety_checker=None, requires_safety_checker=False
-    )
-
-if system == "Darwin":
-    pipe = pipe.to("mps")
-else:
-    pipe = pipe.to("cuda")
-pipe.enable_attention_slicing()  # Recommended if your computer has < 64 GB of RAM
+    if system == "Darwin":
+        pipe = AutoPipelineForText2Image.from_pretrained("stabilityai/sdxl-turbo").to("mps")
+    elif torch.cuda.is_available():
+        pipe = AutoPipelineForText2Image.from_pretrained(
+            "stabilityai/sdxl-turbo",
+            torch_dtype=torch.float16,
+            variant="fp16"
+        ).to("cuda")
+    else:
+        pipe = AutoPipelineForText2Image.from_pretrained("stabilityai/sdxl-turbo").to("cpu")
 
 
 @app.route("/")
@@ -108,22 +113,27 @@ def generate_image():
         "((best quality, masterpiece, detailed, cinematic, intricate details)), "
         + keywords
     )
-    negative_prompt = "BadDream, UnrealisticDream, deformed iris, deformed pupils,\
-        (worst quality, low quality), lowres, blurry, bad hands, bad anatomy, FastNegativeV2\
+    negative_prompt = "(worst quality, low quality), lowres, blurry, bad hands, bad anatomy\
         bad fingers, bad hands, bad face, bad nose, bad mouth, ugly, deformed, easynegative,\
         watermarks"
 
-    # First-time "warmup" pass if PyTorch version is 1.13
-    _ = pipe(better_prompt, num_inference_steps=1)
-
     random_file_name = generate_random_name(10) + ".png"
 
+    # pipe(
+    #     better_prompt,
+    #     negative_prompt=negative_prompt,
+    #     height=height,
+    #     width=width,
+    #     num_inference_steps=SD_STEPS,
+    # ).images[0].save(str("images/" + random_file_name))
+
     pipe(
-        better_prompt,
+        prompt=better_prompt,
         negative_prompt=negative_prompt,
         height=height,
         width=width,
-        num_inference_steps=SD_STEPS,
+        guidance_scale=0.0,
+        num_inference_steps=1
     ).images[0].save(str("images/" + random_file_name))
 
     is_generating_image = False
