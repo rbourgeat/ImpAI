@@ -75,6 +75,7 @@ a:hover {
 
 beta {
   font-size: 15px;
+  font-weight: 200;
   padding: 10px;
   margin-top: -7px;
   margin-right: 10px;
@@ -136,7 +137,7 @@ beta {
   font-size: 15px;
   white-space: nowrap;
   position: absolute;
-  bottom: 100%; /* Position the tooltip above the element */
+  bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
   padding: 8px;
@@ -314,14 +315,17 @@ beta {
 }
 
 .icon-impai-head {
+  position: fixed;
   width: 50px;
   height: auto;
+  border-radius: 15px;
   transition-duration: 1s;
 }
 
 .icon-impai-head:hover {
-  transition-duration: 1s;
   background: rgb(255, 42, 42);
+  border-radius: 15px;
+  transition-duration: 1s;
 }
 
 .menu-npc {

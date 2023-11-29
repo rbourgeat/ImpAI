@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Stable Diffusion Model
+SD_MODEL=stabilityai/sdxl-turbo
+
 # English Mistral 7b Q4_K_M by default
 MODEL=mistral-7b-instruct-v0.1.Q4_K_M.gguf
 MODEL_HF=TheBloke/Mistral-7B-Instruct-v0.1-GGUF:q4_k_m
@@ -26,7 +29,7 @@ git submodule update --init --recursive --remote
 
 bash <(curl -sSL https://g.bodaay.io/hfd) -m $MODEL_HF -s $MODEL_PATH
 
-cd backend && python3.10 -m pip install -r requirements.txt && python3.10 main.py &
+cd backend && python3.11 -m pip install -r requirements.txt && python3.11 main.py $SD_MODEL &
 
 cd frontend && npm i && npm start &
 

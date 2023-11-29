@@ -1,5 +1,7 @@
-numpy==1.23.5
+numpy==1.26.0
 flask==3.0.0
 flask_cors==4.0.0
-diffusers==0.21.4
-torch==1.13.0
+diffusers==0.24.0
+torch==2.0.1
+transformers==4.35.2
+accelerate==0.24.1
