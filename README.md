@@ -21,8 +21,16 @@
 
 Run the following commands for download models and build the project:
 
+- For Linux & MacOS:
+
 ```bash
 bash start.sh
+```
+
+- For Windows:
+
+```bat
+start start.bat
 ```
 
 Open your browser at http://localhost:4242
