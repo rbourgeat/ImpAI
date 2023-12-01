@@ -45,7 +45,17 @@ function Chat({
                     setChatHistory(prevChatHistory => [...prevChatHistory, { text: `http://localhost:7543/images/${data.file_name}`, sender: 'image' }]);
                 }
                 setwaitingImage(false);
+            })
+            .catch(error => {
+                // you can use another way of handling errors
+                console.error(`Error fetching generated image: ${error.message}`);
+                setwaitingImage(false);
             });
+        })
+        .catch(error => {
+            // you can use another way of handling errors
+            console.error(`Error fetching completion: ${error.message}`);
+            setwaitingImage(false);
         });
     }
 
@@ -71,6 +81,10 @@ function Chat({
         .then(data => {
             setChatHistory(prevChatHistory => [...prevChatHistory, { text: data.content, sender: 'server' }]);
             setwaitingText(false);
+        })
+        .catch(error => {
+            // you can use another way of handling errors
+            console.error(`Error fetching completion: ${error.message}`);
         });
     };
 
