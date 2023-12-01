@@ -27,12 +27,43 @@ trap cleanup INT
 
 git submodule update --init --recursive --remote
 
+# Install MODEL_HF
 bash <(curl -sSL https://g.bodaay.io/hfd) -m $MODEL_HF -s $MODEL_PATH
 
+# Check if Miniconda is installed
+if ! command -v conda &> /dev/null
+then
+    # Download the latest Miniconda3 installer for Mac or Linux
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+    else
+        wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    fi
+
+    # Run the installer script
+    bash Miniconda3-latest-*-x86_64.sh -b -p $HOME/miniconda3
+
+    # Remove the installer script
+    rm Miniconda3-latest-*-x86_64.sh
+
+    # Add conda initialize to your bash shell
+    echo ". $HOME/miniconda3/etc/profile.d/conda.sh" >> ~/.bashrc
+    source ~/.bashrc
+fi
+
+# Create a new environment with Python 3.11
+conda create -n ImpAI python=3.11
+
+# Activate the environment
+conda activate ImpAI
+
+# Start backend (for image generation)
 cd backend && python3.11 -m pip install -r requirements.txt && python3.11 main.py $SD_MODEL &
 
+# Start frontend
 cd frontend && npm i && npm start &
 
+# Start llama.cpp server
 cd llama.cpp && make && ./server -m ../$RESULT_PATH -c 32000 --port 7542 &
 
 wait
