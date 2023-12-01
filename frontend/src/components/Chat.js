@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { IoSend, IoImagesOutline } from "react-icons/io5";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Chat({
     firstPrompt,
@@ -57,11 +59,17 @@ ${JSON.stringify(chatHistory)} [/INST]`;
             .catch(error => {
                 console.error(`Error fetching generated image: ${error.message}`);
                 setwaitingImage(false);
+                toast.error("Error with the backend !", {
+                    theme: "dark"
+                });
             });
         })
         .catch(error => {
             console.error(`Error fetching completion: ${error.message}`);
             setwaitingImage(false);
+            toast.error("Error with llama.cpp server !", {
+                theme: "dark"
+            });
         });
     }
 
@@ -89,8 +97,11 @@ ${JSON.stringify(chatHistory)} [/INST]`;
             setwaitingText(false);
         })
         .catch(error => {
-            // you can use another way of handling errors
+            setwaitingText(false);
             console.error(`Error fetching completion: ${error.message}`);
+            toast.error("Error with llama.cpp server !", {
+                theme: "dark"
+            });
         });
     };
 
@@ -105,57 +116,60 @@ ${JSON.stringify(chatHistory)} [/INST]`;
       }, [chatHistory]);
 
     return (
-        <div className="chat-container">
-            <div className="chat-history">
-                {chatHistory.map((message, index) => (
-                <div key={index} className={`message ${message.sender}`}>
-                    { message.sender === 'image' ? (
-                            <div className="message-bubble">
-                                <img src={message.text} alt="If it don't render, check logs and open issue :)" />
-                            </div>
-                        ) : (
-                            <div>
-                                <span className="message-sender">{message.sender === 'user' ? 'You' : 'ImpAI'}</span>
+        <div>
+            <div className="chat-container">
+            <ToastContainer limit={3} />
+                <div className="chat-history">
+                    {chatHistory.map((message, index) => (
+                    <div key={index} className={`message ${message.sender}`}>
+                        { message.sender === 'image' ? (
                                 <div className="message-bubble">
-                                    {message.text.split('\n').map((paragraph, index) => (
-                                        <p key={index} className="paragraph">
-                                            {paragraph}
-                                        </p>
-                                    ))}
+                                    <img src={message.text} alt="If it don't render, check logs and open issue :)" />
                                 </div>
-                            </div>
-                        )
-                    }
-                </div>
-                ))}
-                { waitingText && (
-                    <div className={`message server`}>
-                        <span className="message-sender">ImpAI</span>
-                        <div className="message-bubble">
-                            <div className="loading"><span></span><span></span><span></span></div>
-                        </div>
+                            ) : (
+                                <div>
+                                    <span className="message-sender">{message.sender === 'user' ? 'You' : 'ImpAI'}</span>
+                                    <div className="message-bubble">
+                                        {message.text.split('\n').map((paragraph, index) => (
+                                            <p key={index} className="paragraph">
+                                                {paragraph}
+                                            </p>
+                                        ))}
+                                    </div>
+                                </div>
+                            )
+                        }
                     </div>
-                )}
-                <div ref={chatBottomRef} />
-            </div>
-            <div className="chat-input">
-                <div className="tooltip" data-tooltip={waitingImage ? "Generating Image..." : "Generate Image"}>
-                    <button onClick={generateImage} disabled={waitingImage}>
-                        <IoImagesOutline />
-                    </button>
+                    ))}
+                    { waitingText && (
+                        <div className={`message server`}>
+                            <span className="message-sender">ImpAI</span>
+                            <div className="message-bubble">
+                                <div className="loading"><span></span><span></span><span></span></div>
+                            </div>
+                        </div>
+                    )}
+                    <div ref={chatBottomRef} />
                 </div>
-                <input
-                    type="text"
-                    value={message}
-                    onChange={e => setMessage(e.target.value)}
-                    onKeyDown={handleEnter}
-                    disabled={waitingText}
-                    placeholder={waitingText ? "Generating Response..." : "Type your action..."}
-                />
-                <div className="tooltip" data-tooltip={waitingText ? "Generating Response..." : "Send Message"}>
-                    <button onClick={handleSendMessage} disabled={waitingText}>
-                        <IoSend />
-                    </button>
+                <div className="chat-input">
+                    <div className="tooltip" data-tooltip={waitingImage ? "Generating Image..." : "Generate Image"}>
+                        <button onClick={generateImage} disabled={waitingImage}>
+                            <IoImagesOutline />
+                        </button>
+                    </div>
+                    <input
+                        type="text"
+                        value={message}
+                        onChange={e => setMessage(e.target.value)}
+                        onKeyDown={handleEnter}
+                        disabled={waitingText}
+                        placeholder={waitingText ? "Generating Response..." : "Type your action..."}
+                    />
+                    <div className="tooltip" data-tooltip={waitingText ? "Generating Response..." : "Send Message"}>
+                        <button onClick={handleSendMessage} disabled={waitingText}>
+                            <IoSend />
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
