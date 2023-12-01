@@ -18,9 +18,17 @@ function Chat({
 
     const generateImage = () => {
         setwaitingImage(true);
-        const imagePrompt = `<s>[INST] Generate keywords that could resume the \
-            following text, give me only best keywords:
-            ${JSON.stringify(chatHistory)} [/INST]`;
+        const imagePrompt = `<s>[INST] Write a short paragraph describing \
+a scene or an object that you want to see as an image. Use descriptive words \
+and phrases that capture the details and the mood of your vision. Then, extract \
+the most important words from your paragraph and list them as keywords, separated \
+by commas. For example:\nParagraph: I imagine a peaceful forest at dawn, with \
+rays of sunlight filtering through the branches of the trees. The air is fresh \
+and crisp, and the birds are singing softly. The leaves are green and moist, and \
+the ground is covered with flowers and mushrooms. A small stream runs through the \
+forest, creating a soothing sound.\nKeywords: forest, dawn, sunlight, trees, birds, \
+leaves, flowers, mushrooms, stream.\nThis is the scene you need to describe with keywords: \
+${JSON.stringify(chatHistory)} [/INST]`;
 
         fetch('http://localhost:7542/completion', {
             method: 'POST',
@@ -47,13 +55,11 @@ function Chat({
                 setwaitingImage(false);
             })
             .catch(error => {
-                // you can use another way of handling errors
                 console.error(`Error fetching generated image: ${error.message}`);
                 setwaitingImage(false);
             });
         })
         .catch(error => {
-            // you can use another way of handling errors
             console.error(`Error fetching completion: ${error.message}`);
             setwaitingImage(false);
         });
