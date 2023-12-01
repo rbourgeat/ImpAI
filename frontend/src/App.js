@@ -82,13 +82,7 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
   };
 
   useEffect(() => {
-    const filteredChatHistory = chatHistory.map(item => {
-      if (item.sender === "image") {
-        return "";
-      } else {
-        return item;
-      }
-    });
+    const filteredChatHistory = chatHistory.filter((item) => item.sender !== "image");
 
     setPrompt(userPrompt
       .replace('[CHAT_HISTORY]', JSON.stringify(filteredChatHistory))
@@ -188,15 +182,17 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
         </div>
       </div>
       <Chat
-        firstPrompt={firstPrompt}
-        prompt={prompt}
-        message={message}
-        setMessage={setMessage}
-        chatHistory={chatHistory}
-        setChatHistory={setChatHistory}
-        width={width}
-        height={height}
-        npcList={npcList}
+        {...{
+          firstPrompt,
+          prompt,
+          message,
+          setMessage,
+          chatHistory,
+          setChatHistory,
+          width,
+          height,
+          npcList,
+        }}
       />
     </div>
   );
