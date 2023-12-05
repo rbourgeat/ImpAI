@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { IoSettingsOutline, IoClose, IoReceipt, IoImage, IoReader, IoPersonAdd, IoTrashBin } from "react-icons/io5";
+import { IoClose, IoReceipt, IoImage, IoReader, IoPersonAdd, IoTrashBin } from "react-icons/io5";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Chat from './components/Chat';
 import './App.css';
 
@@ -16,6 +18,7 @@ function App() {
   const [height, setHeight] = useState(
     localStorage.getItem('height') ? Number(localStorage.getItem('height')) : 512);
   const [npcList, setNpcList] = useState([]);
+  const [npcAvatarList, setNpcAvatarList] = useState([]);
 
   const defaultFirstPrompt = `<s>[INST] You are a game master of a role play. \
 You need to act as a narrator for simulate the beginning of the story. \
@@ -81,6 +84,53 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
     });
   };
 
+  const generateImageNpc = (index) => {
+        const imagePrompt = `<s>[INST] Extract the most important words \
+from your paragraph and list them as keywords, separated \
+by commas. For example:\nParagraph: A young woman with long curly hair, \
+wearing a red dress, and standing in front of a sunset. \
+\nKeywords: young, woman, long curly hair, red dress, standing in front of a sunset \
+\nThis is the paragraph you need to describe with keywords: \
+${JSON.stringify(npcList[index])} [/INST]`;
+
+    fetch('http://localhost:7542/completion', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({"prompt": imagePrompt, "n_predict": -1}),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("keywords: ", data.content);
+        fetch('http://localhost:7543/generate_image', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({"keywords": data.content, width: 512, height: 512}),
+        })
+        .then(response => response.json())
+        .then(data => {
+          const newArray = [...npcAvatarList];
+          newArray[index] = `http://localhost:7543/images/${data.file_name}`;
+          setNpcAvatarList(newArray);
+        })
+        .catch(error => {
+            console.error(`Error fetching generated image: ${error.message}`);
+            toast.error("Error with the backend !", {
+                theme: "dark"
+            });
+        });
+    })
+    .catch(error => {
+        console.error(`Error fetching completion: ${error.message}`);
+        toast.error("Error with llama.cpp server !", {
+            theme: "dark"
+        });
+    });
+  }
+
   useEffect(() => {
     const filteredChatHistory = chatHistory.filter((item) => item.sender !== "image");
 
@@ -94,8 +144,13 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
       .replace('[MESSAGE]', message));
   }, [firstUserPrompt, message])
 
+  useEffect(() => {
+    console.log("npc avatar generated !");
+  }, [npcAvatarList])
+
   return (
     <div>
+      <ToastContainer limit={3} />
       <img src={imageUrl} alt="ImpAI" className="logo" onClick={handleClick} />
       <div className={`menu-settings ${isSettingsMenuOpen ? 'open' : ''}`}>
         <a onClick={toggleSettingsMenu}>
@@ -164,18 +219,31 @@ the player say: [MESSAGE], continue the rp. [/INST]`;
           {npcList.map((npc, index) => (
             <div style={{padding: "10px"}} key={index}>
               <div className="align-items">
+                <img src={npcAvatarList[index] ? npcAvatarList[index] : "soldier_impai.png"} alt="ImpAI" className="avatar" onClick={handleClick} />
                 <textarea
                   type="text"
                   value={npc}
                   onChange={(e) => editNpc(index, e.target.value)}
                   placeholder={npcExemple}
                 />
-                <button 
-                  className="user-delete"
-                  onClick={() => deleteNpc(index)}
-                >
-                  <IoTrashBin />
-                </button>
+              </div>
+              <div className="align-items" style={{paddingLeft: "20px"}}>
+                <div className="tooltip" data-tooltip="Generate Image">
+                  <button 
+                    className="icon-user"
+                    onClick={() => generateImageNpc(index)}
+                  >
+                    <IoImage />
+                  </button>
+                </div>
+                <div className="tooltip" data-tooltip="Delete Character">
+                  <button 
+                    className="icon-user"
+                    onClick={() => deleteNpc(index)}
+                  >
+                    <IoTrashBin />
+                  </button>
+                </div>
               </div>
             </div>
           ))}
