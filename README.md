@@ -76,7 +76,6 @@ SD_MODEL=stabilityai/sdxl-turbo
 - [x] Settings
 
 - [x] NPC
-    - [ ] Automatic npc
 
 - [ ] Save system
 

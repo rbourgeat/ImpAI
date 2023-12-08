@@ -12,6 +12,7 @@ function Chat({
     setChatHistory,
     width,
     height,
+    steps,
     npcList
 }) {
   const chatBottomRef = useRef(null);
@@ -47,7 +48,7 @@ ${JSON.stringify(chatHistory)} [/INST]`;
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({"keywords": data.content, width: width, height: height}),
+                body: JSON.stringify({"keywords": data.content, width: width, height: height, steps: steps}),
             })
             .then(response => response.json())
             .then(data => {

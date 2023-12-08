@@ -17,6 +17,8 @@ function App() {
     localStorage.getItem('width') ? Number(localStorage.getItem('width')) : 1024);
   const [height, setHeight] = useState(
     localStorage.getItem('height') ? Number(localStorage.getItem('height')) : 512);
+  const [steps, setSteps] = useState(
+    localStorage.getItem('steps') ? Number(localStorage.getItem('steps')) : 1);
   const [npcList, setNpcList] = useState([]);
   const [npcAvatarList, setNpcAvatarList] = useState([]);
 
@@ -108,7 +110,7 @@ ${JSON.stringify(npcList[index])} [/INST]`;
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({"keywords": data.content, width: 512, height: 512}),
+            body: JSON.stringify({"keywords": data.content, width: 512, height: 512, steps: steps}),
         })
         .then(response => response.json())
         .then(data => {
@@ -201,6 +203,18 @@ ${JSON.stringify(npcList[index])} [/INST]`;
               }}
             />
           </div>
+          <br/>
+          <div className="align-items">
+            <p>Steps:</p>
+            <input
+              type="number" 
+              value={steps} 
+              onChange={e => {
+                setSteps(Number(e.target.value));
+                localStorage.setItem('steps', Number(e.target.value));
+              }}
+            />
+          </div>
         </div>
       </div>
       <div className={`menu-npc ${isNPCMenuOpen ? 'open' : ''}`}>
@@ -259,6 +273,7 @@ ${JSON.stringify(npcList[index])} [/INST]`;
           setChatHistory,
           width,
           height,
+          steps,
           npcList,
         }}
       />

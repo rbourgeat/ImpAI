@@ -9,9 +9,7 @@ from diffusers import AutoPipelineForText2Image
 from flask import Flask, render_template, request, jsonify, send_from_directory
 from flask_cors import CORS
 
-SD_MODEL = sys.argv[0]
-SD_HEIGHT = 512
-SD_WIDTH = 1024
+SD_MODEL = sys.argv[1]
 
 system = platform.system()
 app = Flask(__name__)
@@ -21,32 +19,32 @@ is_generating_image = False
 pipe = None 
 try:
     if system == "Darwin":
-        pipe = AutoPipelineForText2Image.from_pretrained("stabilityai/sdxl-turbo", local_files_only=True).to("mps")
+        pipe = AutoPipelineForText2Image.from_pretrained(SD_MODEL, local_files_only=True).to("mps")
     elif torch.cuda.is_available():
         pipe = AutoPipelineForText2Image.from_pretrained(
-            "stabilityai/sdxl-turbo",
+            SD_MODEL,
             torch_dtype=torch.float16,
             variant="fp16",
             local_files_only=True
         ).to("cuda")
     else:
         pipe = AutoPipelineForText2Image.from_pretrained(
-            "stabilityai/sdxl-turbo",
+            SD_MODEL,
             local_files_only=True
         ).to("cpu")
 
 except Exception as e:
     app.logger.info("An error occurred:", str(e))
     if system == "Darwin":
-        pipe = AutoPipelineForText2Image.from_pretrained("stabilityai/sdxl-turbo").to("mps")
+        pipe = AutoPipelineForText2Image.from_pretrained(SD_MODEL).to("mps")
     elif torch.cuda.is_available():
         pipe = AutoPipelineForText2Image.from_pretrained(
-            "stabilityai/sdxl-turbo",
+            SD_MODEL,
             torch_dtype=torch.float16,
             variant="fp16"
         ).to("cuda")
     else:
-        pipe = AutoPipelineForText2Image.from_pretrained("stabilityai/sdxl-turbo").to("cpu")
+        pipe = AutoPipelineForText2Image.from_pretrained(SD_MODEL).to("cpu")
 
 
 @app.route("/")
@@ -108,24 +106,17 @@ def generate_image():
     keywords = request.get_json()["keywords"]
     width = request.get_json()["width"]
     height = request.get_json()["height"]
+    steps = request.get_json()["steps"]
 
     better_prompt = (
-        "((best quality, masterpiece, detailed, cinematic, intricate details)), "
+        "(best quality, masterpiece, high resolution, detailed, cinematic), "
         + keywords
     )
     negative_prompt = "(worst quality, low quality), lowres, blurry, bad hands, bad anatomy\
         bad fingers, bad hands, bad face, bad nose, bad mouth, ugly, deformed, easynegative,\
-        watermarks"
+        watermarks, mutilated, extra fingers, extra limbs"
 
     random_file_name = generate_random_name(10) + ".png"
-
-    # pipe(
-    #     better_prompt,
-    #     negative_prompt=negative_prompt,
-    #     height=height,
-    #     width=width,
-    #     num_inference_steps=SD_STEPS,
-    # ).images[0].save(str("images/" + random_file_name))
 
     pipe(
         prompt=better_prompt,
@@ -133,7 +124,7 @@ def generate_image():
         height=height,
         width=width,
         guidance_scale=0.0,
-        num_inference_steps=1
+        num_inference_steps=steps
     ).images[0].save(str("images/" + random_file_name))
 
     is_generating_image = False
