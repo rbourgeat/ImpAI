@@ -124,7 +124,8 @@ def generate_image():
         height=height,
         width=width,
         guidance_scale=0.0,
-        num_inference_steps=steps
+        num_inference_steps=steps,
+        timestep_spacing='trailing'
     ).images[0].save(str("images/" + random_file_name))
 
     is_generating_image = False

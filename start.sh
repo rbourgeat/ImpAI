@@ -52,13 +52,18 @@ then
 fi
 
 # Create a new environment with Python 3.11
-conda create -n ImpAI python=3.11
+conda create -n ImpAI python=3.11 -y
 
 # Activate the environment
-conda activate ImpAI
+source activate ImpAI
 
 # Start backend (for image generation)
 cd backend && python3.11 -m pip install -r requirements.txt && python3.11 main.py $SD_MODEL &
+
+# Wait for the Flask server to be up before proceeding
+while ! curl -s http://127.0.0.1:7543 > /dev/null; do
+    sleep 1
+done
 
 # Start frontend
 cd frontend && npm i && npm start &
