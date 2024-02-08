@@ -5,6 +5,7 @@
 <p align="center">
     <img alt="Python" src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54">
     <img alt="React" src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB">
+    <img alt="React" src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white">
 </p>
 
 <p align="center">
@@ -17,7 +18,7 @@
 
 # <img src="./frontend/public/astro_impai.png" alt="ImpAI" width="50px" align="left"> Start here
 
-> ℹ️ You need [NodeJS](https://nodejs.org) and [Python3.11](https://www.python.org)
+> ℹ️ You need [NodeJS](https://nodejs.org) and [Python3.11](https://www.python.org) or [Docker](https://www.docker.com/)
 
 Run the following commands for download models and build the project:
 
@@ -31,6 +32,20 @@ bash start.sh
 
 ```bat
 start start.bat
+```
+
+- With Docker:
+
+If you want build from sources:
+
+```bash
+docker-compose build --build-arg SD_MODEL=stabilityai/sdxl-turbo
+```
+
+Then run it:
+
+```bash
+bash docker.sh
 ```
 
 Open your browser at http://localhost:4242

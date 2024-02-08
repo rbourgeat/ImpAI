@@ -1,0 +1,26 @@
+version: '3'
+services:
+  backend:
+    build: 
+      context: ./backend
+      args:
+        - SD_MODEL=${SD_MODEL:-stabilityai/sdxl-turbo}
+    image: ghcr.io/rbourgeat/impai-backend-sdxl-turbo:latest
+    ports:
+      - "7543:7543"
+    command: ["python3.11", "main.py", "${SD_MODEL:-stabilityai/sdxl-turbo}"]
+  frontend:
+    build: ./frontend
+    image: ghcr.io/rbourgeat/impai-frontend:latest
+    ports:
+      - "4242:3000"
+  llama_cpp:
+    image: ghcr.io/ggerganov/llama.cpp:server
+    ports:
+      - "7542:7542"
+    command: >
+      -m /models/${RESULT_PATH}
+      -c 32000
+      --port 7542
+    volumes:
+      - ./${MODEL_PATH}:/models
