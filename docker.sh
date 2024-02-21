@@ -1,7 +1,5 @@
 #!/bin/bash
 
-docker-compose down
-
 # Stable Diffusion Model
 export SD_MODEL=stabilityai/sdxl-turbo
 
@@ -22,5 +20,7 @@ docker-compose down
 
 # Install MODEL_HF
 bash <(curl -sSL https://g.bodaay.io/hfd) -m $MODEL_HF -s $MODEL_PATH
+
+docker-compose pull
 
 docker-compose up -d
